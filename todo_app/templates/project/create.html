@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% if request.args.get("project_id") or request.form.get("project_id") %}
+    {% set title = "Update" %}
+{% else %}
+    {% set title = "Create" %}
+{% endif %}
+
+
+{% block content %}
+    <h1 class="text-center">{% block title %}{{ title }}{% endblock %} project</h1>
+
+    <div class="row justify-content-center">
+        <form class="col-md-4 col-lg-2" method="post">
+            {% if title == "Update" %}
+                <input name="project_id" type="hidden" value="{{ project.id }}">
+            {% endif %}
+
+            <div class="mb-3">
+                <label for="name">Name</label>
+                <input class="form-control" id="name" name="name" required type="text" value="{{ project.name }}">
+            </div>
+    
+            <button class="btn btn-primary">{{ title }}</button>
+        </form>
+    </div>
+{% endblock %}
