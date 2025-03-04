@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% if request.args.get("project_id") or request.form.get("project_id") %}
+{% if request.args.get("project_id") or project %}
     {% set title = "Update" %}
 {% else %}
     {% set title = "Create" %}
