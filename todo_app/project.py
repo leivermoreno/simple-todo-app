@@ -34,15 +34,10 @@ def show_details(project_id):
 
 @bp.route("/create", methods=("GET", "POST"))
 def create():
-    project_id = None
     project = None
-    try:
-        project_id = request.form.get("project_id") or request.args.get("project_id")
-        if project_id is not None:
-            project_id = int(project_id)
-            project = get_project(project_id)
-    except ValueError:
-        abort(400)
+    project_id = request.form.get("project_id") or request.args.get("project_id")
+    if project_id is not None:
+        project = get_project(project_id)
 
     if request.method == "POST":
         name = request.form["name"]
