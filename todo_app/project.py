@@ -34,11 +34,6 @@ def show_details(project_id):
 
 @bp.route("/create", methods=("GET", "POST"))
 def create():
-    project = None
-    project_id = request.form.get("project_id") or request.args.get("project_id")
-    if project_id is not None:
-        project = get_project(project_id)
-
     if request.method == "POST":
         name = request.form["name"]
 
@@ -48,7 +43,9 @@ def create():
             error = "Name is required."
 
         if not error:
-            if project:
+            project_id = request.form.get("project_id")
+            if project_id is not None:
+                project = get_project(project_id)
                 project.name = name
             else:
                 project = Project(name=name, user_id=g.user.id)
@@ -61,6 +58,10 @@ def create():
             return redirect(url_for("project.show_details", project_id=project.id))
 
         flash(error)
+
+    project = None
+    if request.method == "GET" and request.args.get("project_id") is not None:
+        project = get_project(request.args.get("project_id"))
 
     return render_template("project/create.html", project=project)
 
