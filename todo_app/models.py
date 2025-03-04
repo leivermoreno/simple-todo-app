@@ -31,7 +31,9 @@ class Task(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     project_id = Column(ForeignKey("projects.id"), nullable=False)  # TODO index
     text = Column(String(), nullable=False)
-    completed = Column(Boolean(), nullable=False, default=False)
+    completed = Column(Boolean(), nullable=False)
+
+    project = relationship("Project", back_populates="tasks")
 
 
 class Collaborator(Base):
