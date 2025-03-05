@@ -1,11 +1,12 @@
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-from models import Task
 from db import db
-from utils import get_project, get_task
+from task.models import Task
+from project.utils import get_project
+from task.utils import get_task
 
 
-bp = Blueprint("task", __name__, url_prefix="/task")
+bp = Blueprint("task", __name__, url_prefix="/task", template_folder="templates")
 
 
 @bp.route("/create", methods=["GET", "POST"])
@@ -44,7 +45,7 @@ def create():
         if request.args.get("task_id") is not None:
             task = get_task(request.args["task_id"])
 
-    return render_template("task/create.html", project_id=project_id, task=task)
+    return render_template("create_task.html", project_id=project_id, task=task)
 
 
 @bp.get("/delete/<int:task_id>")

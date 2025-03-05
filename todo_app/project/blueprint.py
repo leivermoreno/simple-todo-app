@@ -1,6 +1,5 @@
 from flask import (
     Blueprint,
-    abort,
     flash,
     g,
     redirect,
@@ -8,28 +7,27 @@ from flask import (
     request,
     url_for,
 )
-from sqlalchemy import select
 
-from auth import login_required
+from auth.utils import login_required
 from db import db
-from models import Project
-from utils import get_project
+from project.models import Project
+from project.utils import get_project
 
 
-bp = Blueprint("project", __name__)
+bp = Blueprint("project", __name__, template_folder="templates")
 
 bp.before_request(login_required())
 
 
 @bp.get("/")
 def index():
-    return render_template("project/index.html", projects=g.user.projects)
+    return render_template("index.html", projects=g.user.projects)
 
 
 @bp.get("/<int:project_id>")
 def show_details(project_id):
     project = get_project(project_id)
-    return render_template("project/details.html", project=project)
+    return render_template("details.html", project=project)
 
 
 @bp.route("/create", methods=("GET", "POST"))
@@ -63,7 +61,7 @@ def create():
     if request.method == "GET" and request.args.get("project_id") is not None:
         project = get_project(request.args.get("project_id"))
 
-    return render_template("project/create.html", project=project)
+    return render_template("create_project.html", project=project)
 
 
 @bp.get("/<int:project_id>/delete")

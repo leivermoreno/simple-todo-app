@@ -1,4 +1,3 @@
-import functools
 from flask import (
     Blueprint,
     flash,
@@ -14,10 +13,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy.exc import IntegrityError
 
 from db import db
-from models import Task, User, Project
+from auth.models import User
+from task.models import Task
+from project.models import Project
 
 
-bp = Blueprint("auth", __name__, url_prefix="/auth")
+bp = Blueprint("auth", __name__, url_prefix="/auth", template_folder="templates")
 
 
 @bp.route("/register", methods=("GET", "POST"))
@@ -54,7 +55,7 @@ def register():
 
         flash(error)
 
-    return render_template("auth/register.html")
+    return render_template("register.html")
 
 
 @bp.route("/login", methods=("GET", "POST"))
@@ -82,7 +83,7 @@ def login():
 
         flash(error)
 
-    return render_template("auth/login.html")
+    return render_template("login.html")
 
 
 @bp.before_app_request
@@ -100,15 +101,3 @@ def load_logged_in_user():
 def logout():
     session.clear()
     return redirect(url_for("auth.login"))
-
-
-def login_required(view=None):
-    @functools.wraps(view)
-    def wrapped(**kwargs):
-        if g.user is None:
-            return redirect(url_for("auth.login"))
-
-        if view is not None:
-            return view(**kwargs)
-
-    return wrapped

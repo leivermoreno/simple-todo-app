@@ -19,26 +19,20 @@ def create_app():
 
     db.init_app(app)
 
-    import models
+    import auth.blueprint
+
+    app.register_blueprint(auth.blueprint.bp)
+
+    import project.blueprint
+
+    app.register_blueprint(project.blueprint.bp)
+    app.add_url_rule("/", endpoint="index")
+
+    import task.blueprint
+
+    app.register_blueprint(task.blueprint.bp)
 
     with app.app_context():
         db.create_all()
-
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
-
-    import auth
-
-    app.register_blueprint(auth.bp)
-
-    import project
-
-    app.register_blueprint(project.bp)
-    app.add_url_rule("/", endpoint="index")
-
-    import task
-
-    app.register_blueprint(task.bp)
 
     return app
