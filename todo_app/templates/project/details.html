@@ -3,14 +3,9 @@
 {% block content %}
     <h1>{% block title %}{{ project.name }}{% endblock %}</h1>
 
-    <form action="{{ url_for('project.create') }}">
-        <input name="project_id" type="hidden" value="{{ project.id }}">
-        <button class="btn btn-primary" type="submit">Edit project</button>
-    </form>
+    <a class="btn btn-primary" href="{{ url_for('project.create', project_id=project.id) }}">Edit project</a>
 
-    <form action="{{ url_for('project.delete', project_id=project.id) }}" class="mt-3">
-        <button class="btn btn-danger" type="submit">Delete project</button>
-    </form>
+    <a class="btn btn-danger" href="{{ url_for('project.delete', project_id=project.id) }}">Delete project</a>
 
     <h2 class="mt-5">Tasks</h2>
 
