@@ -41,14 +41,15 @@ def register():
                 user = User(email=email, password=password, name=name)
                 project = Project(name="My first project")
                 user.projects.append(project)
-                task = Task(text="First task")
+                task = Task(text="First task", completed=False)
                 project.tasks.append(task)
                 db.session.add(user)
                 db.session.commit()
                 flash("Registration successful! You can now log in.")
 
                 return redirect(url_for("auth.login"))
-            except IntegrityError:
+            except IntegrityError as e:
+                print(e)
                 error = "Email is already registered."
 
         flash(error)
