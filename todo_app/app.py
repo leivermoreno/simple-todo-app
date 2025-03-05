@@ -37,4 +37,8 @@ def create_app():
     app.register_blueprint(project.bp)
     app.add_url_rule("/", endpoint="index")
 
+    import task
+
+    app.register_blueprint(task.bp)
+
     return app

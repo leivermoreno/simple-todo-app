@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% if request.form.get("task_id") or task %}
+    {% set update = True %}
+    {% set title = "Update" %}
+{% else %}
+    {% set update = False %}
+    {% set title = "Create" %}
+{% endif %}
+
+{% block content %}
+    <h1>{% block title %}{{ title }} task{% endblock %}</h1>
+
+    <div class="row justify-content-center">
+        <form class="col-md-4" method="post">
+            <input name="project_id" type="hidden" value="{{ request.form.get('project_id') or project_id }}">
+
+            <div class="mb-3">
+                <label for="text">Text</label>
+                <input class="form-control" id="text" name="text" required type="text" value="{{ request.form.get('text') or task.text }}">
+            </div>
+            
+            {% if update %}
+                <input name="task_id" type="hidden" value="{{ request.form.get('task_id') or task.id }}">
+
+                <div class="form-check mb-3">
+                    <input {% if task.completed %}checked{% endif %} class="form-check-input" id="completed" name="completed" type="checkbox">
+                    <label for="completed">Completed</label>
+                </div>
+            {% endif %}
+    
+            <button class="btn btn-primary">{{ title }}</button>
+
+            {% if update %}
+                <a class="btn btn-danger" href="{{ url_for('task.delete', task_id=task.id, project_id=project_id) }}">Delete</a>
+            {% endif %}
+        </form>
+    </div>
+{% endblock %}

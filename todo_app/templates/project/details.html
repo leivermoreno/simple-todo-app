@@ -14,11 +14,13 @@
 
     <h2 class="mt-5">Tasks</h2>
 
+    <a class="btn btn-primary mb-3" href="{{ url_for('task.create', project_id=project.id) }}">Create task</a>
+
     {% if project.tasks %}
         <ul class="list-group">
-            {% for t in project.tasks %}
+            {% for task in project.tasks %}
                 <li class="list-group-item">
-                    <a href="#">{{ t.text }}</a>
+                    <a class="{% if task.completed %}text-success{% endif %}" href="{{ url_for('task.create', project_id=project.id, task_id=task.id) }}">{{ task.text }}</a>
                 </li>
             {% endfor %}
         </ul>
