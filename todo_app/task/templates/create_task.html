@@ -17,7 +17,7 @@
 
             <div class="mb-3">
                 <label for="text">Text</label>
-                <input class="form-control" id="text" name="text" required type="text" value="{{ request.form.get('text') or task.text }}">
+                <input autocomplete="off" class="form-control" id="text" name="text" required type="text" value="{{ request.form.get('text') or task.text }}">
             </div>
             
             {% if update %}
