@@ -32,6 +32,10 @@ def create_app():
 
     app.register_blueprint(task.blueprint.bp)
 
+    import collaborator.blueprint
+
+    app.register_blueprint(collaborator.blueprint.bp)
+
     with app.app_context():
         db.create_all()
 

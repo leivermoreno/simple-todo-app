@@ -43,7 +43,7 @@ def create():
         if not error:
             project_id = request.form.get("project_id")
             if project_id is not None:
-                project = get_project(project_id)
+                project = get_project(project_id, check_collaborator=False)
                 project.name = name
             else:
                 project = Project(name=name, user_id=g.user.id)
@@ -59,15 +59,21 @@ def create():
 
     project = None
     if request.method == "GET" and request.args.get("project_id") is not None:
-        project = get_project(request.args.get("project_id"))
+        project = get_project(request.args.get("project_id"), check_collaborator=False)
 
     return render_template("create_project.html", project=project)
 
 
 @bp.get("/<int:project_id>/delete")
 def delete(project_id):
-    project = get_project(project_id)
+    project = get_project(project_id, check_collaborator=False)
     db.session.delete(project)
     db.session.commit()
     flash(f"Project {project.name} was deleted.")
     return redirect(url_for("project.index"))
+
+
+@bp.get("/<int:project_id>/collaborators")
+def show_collaborators(project_id):
+    project = get_project(project_id)
+    return render_template("show_collaborators.html", project=project)

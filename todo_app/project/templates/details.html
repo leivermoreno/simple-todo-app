@@ -1,11 +1,20 @@
 {% extends 'base.html' %}
 
+{% set ownership = g.user.id == project.user_id %}
+
 {% block content %}
     <h1>{% block title %}{{ project.name }}{% endblock %}</h1>
 
+    {% if ownership %}
     <a class="btn btn-primary" href="{{ url_for('project.create', project_id=project.id) }}">Edit project</a>
-
+    
     <a class="btn btn-danger" href="{{ url_for('project.delete', project_id=project.id) }}">Delete project</a>
+
+    <br>
+        <a class="btn btn-primary mt-3" href="{{ url_for('collaborator.create', project_id=project.id) }}">Add collaborator</a>
+    {% endif %}
+
+    <a class="btn btn-primary {% if ownership %}mt-3{% endif %}" href="{{ url_for('project.show_collaborators', project_id=project.id) }}">Show collaborators</a>
 
     <h2 class="mt-5">Tasks</h2>
 

@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Collaborations{% endblock %}</h1>
+
+    {% if collaborations %}
+        <ul class="list-group">
+            {% for collab in collaborations %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('project.show_details', project_id=collab.project.id) }}">{{ collab.project.name }}</a>
+                     - 
+                    {{ collab.project.user.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        You are not collaborating to any project yet. Ask someone to invite you!
+    {% endif %}
+{% endblock %}

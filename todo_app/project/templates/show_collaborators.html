@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %}Collaborators{% endblock %}</h1>
+
+    {% if project.collaborators %}
+        <ul class="list-group">
+            {% for collab in project.collaborators %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>{{ collab.user.name }} - {{ collab.user.email }}</span>
+                    {% if g.user.id == project.user_id %}
+                        <a class="btn btn-danger" href="{{ url_for('collaborator.delete', collaborator_id=collab.id, project_id=project.id) }}">Delete</a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        You have not invited anyone to this project.
+        <br>
+        <a class="btn btn-primary mt-3" href="{{ url_for('collaborator.create', project_id=project.id) }}">Add collaborator</a>
+    {% endif %}
+{% endblock %}

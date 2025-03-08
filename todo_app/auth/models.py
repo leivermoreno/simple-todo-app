@@ -13,3 +13,6 @@ class User(Base, TimestampMixin):
     name = Column(String(), nullable=False)
 
     projects = relationship("Project", cascade="all, delete-orphan")
+    collaborations = relationship(
+        "Collaborator", order_by="desc(Collaborator.modified_at)"
+    )

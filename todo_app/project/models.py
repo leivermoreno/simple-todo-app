@@ -11,6 +11,7 @@ class Project(Base, TimestampMixin):
     user_id = Column(ForeignKey("users.id"), nullable=False)
     name = Column(String(), nullable=False)
 
+    user = relationship("User", back_populates="projects")
     tasks = relationship(
         "Task",
         cascade="all, delete-orphan",

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="text-center">{% block title %}Add a collaborator{% endblock %}</h1>
+
+    <div class="row justify-content-center">
+        <form class="col-md-4" method="post">
+            <input name="project_id" type="hidden" value="{{ request.form.get('project_id') or project.id }}">
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input class="form-control" id="email" name="email" type="email" value="{{ request.form['email'] }}">
+            </div>
+
+            <button class="btn btn-primary" type="submit">Invite</button>
+        </form>
+    </div>
+{% endblock %}
