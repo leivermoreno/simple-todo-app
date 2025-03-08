@@ -50,7 +50,6 @@ def register():
 
                 return redirect(url_for("auth.login"))
             except IntegrityError as e:
-                print(e)
                 error = "Email is already registered."
 
         flash(error)
