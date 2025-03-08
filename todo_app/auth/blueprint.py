@@ -42,9 +42,10 @@ def register():
                 user = User(email=email, password=password, name=name)
                 project = Project(name="My first project")
                 user.projects.append(project)
-                task = Task(text="First task", completed=False)
-                project.tasks.append(task)
                 db.session.add(user)
+                db.session.commit()
+                task = Task(text="First task", completed=False, added_by_id=user.id)
+                project.tasks.append(task)
                 db.session.commit()
                 flash("Registration successful! You can now log in.")
 

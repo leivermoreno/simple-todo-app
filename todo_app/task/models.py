@@ -12,5 +12,7 @@ class Task(Base, TimestampMixin):
     project_id = Column(ForeignKey("projects.id"), nullable=False)
     text = Column(String(), nullable=False)
     completed = Column(Boolean(), nullable=False)
+    added_by_id = Column(ForeignKey("users.id"), nullable=False)
 
     project = relationship("Project", back_populates="tasks")
+    added_by = relationship("User")

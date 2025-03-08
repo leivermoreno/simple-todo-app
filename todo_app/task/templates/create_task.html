@@ -21,6 +21,10 @@
             </div>
             
             {% if update %}
+                {% if task.added_by_id != g.user.id %}
+                    Added by {{ task.added_by.name }}
+                {% endif %}
+
                 <input name="task_id" type="hidden" value="{{ request.form.get('task_id') or task.id }}">
 
                 <div class="form-check mb-3">

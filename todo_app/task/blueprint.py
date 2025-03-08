@@ -1,4 +1,4 @@
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, flash, g, redirect, render_template, request, url_for
 
 from db import db
 from task.models import Task
@@ -31,7 +31,7 @@ def create():
                 task.text = text
                 task.completed = completed
             else:
-                task = Task(text=text, completed=False)
+                task = Task(text=text, completed=False, added_by_id=g.user.id)
                 project.tasks.append(task)
 
             db.session.commit()
