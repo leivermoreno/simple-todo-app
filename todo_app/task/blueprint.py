@@ -4,9 +4,12 @@ from db import db
 from task.models import Task
 from project.utils import get_project
 from task.utils import get_task
+from auth.utils import login_required
 
 
 bp = Blueprint("task", __name__, url_prefix="/task", template_folder="templates")
+
+bp.before_request(login_required())
 
 
 @bp.route("/create", methods=["GET", "POST"])
