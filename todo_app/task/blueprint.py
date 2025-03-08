@@ -41,9 +41,11 @@ def create():
     task = None
     if request.method == "GET":
         project_id = request.args["project_id"]
+        # to check that project exists and ownership or collaborator
+        get_project(project_id)
         task_id = request.args.get("task_id")
-        if request.args.get("task_id") is not None:
-            task = get_task(request.args["task_id"])
+        if task_id is not None:
+            task = get_task(task_id)
 
     return render_template("create_task.html", project_id=project_id, task=task)
 
