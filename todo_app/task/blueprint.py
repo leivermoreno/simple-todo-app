@@ -50,6 +50,14 @@ def create():
     return render_template("create_task.html", project_id=project_id, task=task)
 
 
+@bp.get("/completed/<int:task_id>")
+def completed(task_id):
+    task = get_task(task_id)
+    task.completed = not task.completed
+    db.session.commit()
+    return redirect(url_for("project.show_details", project_id=task.project_id))
+
+
 @bp.get("/delete/<int:task_id>")
 def delete(task_id):
     project_id = request.args["project_id"]
